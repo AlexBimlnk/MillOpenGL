@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,7 +22,7 @@ namespace MillOpenGL_IllarionovPRI_120.Scenes.Main
             return _mGlTextureObject;
         }
 
-        public void LoadTextureForModel()
+        public void LoadTextureForModel(string textureName)
         {
             // создаем изображение с идентификатором imageId
             Il.ilGenImages(1, out _imageId);
@@ -32,7 +33,7 @@ namespace MillOpenGL_IllarionovPRI_120.Scenes.Main
             //string url = Resources.background;
 
             // пробуем загрузить изображение
-            if (Il.ilLoadImage("texture\\background.jpg"))
+            if (Il.ilLoadImage($"texture\\{textureName}"))
             {
 
                 // если загрузка прошла успешно

@@ -15,6 +15,7 @@ namespace MillOpenGL_IllarionovPRI_120
     public sealed class MainScene3dMill : IOpenGLDrawable
     {
         private readonly TextureLoader _textureLoader = new TextureLoader();
+        private readonly ModelLoader _modelLoader = new ModelLoader();
 
         private readonly int _width;
         private readonly int _height;
@@ -22,6 +23,8 @@ namespace MillOpenGL_IllarionovPRI_120
         private bool _isInit;
 
         public Mill Mill { get; } = new Mill();
+
+        public ModelLoader Telega => _modelLoader;
 
         public MainScene3dMill(int w, int h)
         {
@@ -58,7 +61,9 @@ namespace MillOpenGL_IllarionovPRI_120
             Gl.glEnable(Gl.GL_LIGHTING);
             Gl.glEnable(Gl.GL_LIGHT0);
 
-            _textureLoader.LoadTextureForModel();
+            _textureLoader.LoadTextureForModel("background.jpg");
+
+            _modelLoader.LoadModel("telega.ase");
 
             _isInit = true;
         }
@@ -82,6 +87,8 @@ namespace MillOpenGL_IllarionovPRI_120
             globalSceneMove?.Invoke();
 
             Mill.Draw(globalSceneMove);
+
+            _modelLoader.Draw(globalSceneMove);
         }
 
         private void DrawBackground()

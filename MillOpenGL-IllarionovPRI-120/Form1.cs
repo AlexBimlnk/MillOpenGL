@@ -1,28 +1,33 @@
-﻿using MillOpenGL_IllarionovPRI_120.Properties;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.IO;
+using System.Media;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Tao.DevIl;
 using Tao.FreeGlut;
 using Tao.OpenGl;
-using Tao.Platform.Windows;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace MillOpenGL_IllarionovPRI_120
 {
     public partial class Form1 : Form
     {
+        private const string WAIT_ROLLBACK = "Ждите возрат телеги";
+        private const string CAN_MOVE_TELEGA = "Вы можете передвигать тележку";
+
         private MainScene3dMill _mainScene3dMill;
         private Scene2dImage _scene2dImage;
 
+        private System.Windows.Media.MediaPlayer _millAudioPlayer = new System.Windows.Media.MediaPlayer();
+        private System.Windows.Media.MediaPlayer _refreshAudioPlayer = new System.Windows.Media.MediaPlayer();
+
+        private readonly SoundPlayer _millSoundPlayer = new SoundPlayer("sounds\\millloop.wav");
+        private readonly SoundPlayer _refreshSoundPlayer = new SoundPlayer("sounds\\millrefresh.wav");
+        private readonly SoundPlayer _bgAudio = new SoundPlayer("sounds\\Terrain-Grass.wav");
+
         private bool _isMainScene = true;
+        private bool _isCollision;
 
         private int _globalRotation = 0;
 
@@ -44,8 +49,33 @@ namespace MillOpenGL_IllarionovPRI_120
 
             // По умолчанию запускаем главную сцену
             _mainScene3dMill.Init();
-
             renderTimer.Start();
+
+
+            _refreshAudioPlayer.Open(new Uri("sounds\\millrefresh.wav", UriKind.Relative));
+            _refreshAudioPlayer.MediaEnded += AudioResetHandler;
+            _refreshAudioPlayer.Volume = 0.3;
+
+            _millAudioPlayer.Open(new Uri("sounds\\millloop.wav", UriKind.Relative));
+            _millAudioPlayer.MediaEnded += AudioLoopHandler;
+            _millAudioPlayer.Volume = 0.2;
+            _millAudioPlayer.Play();
+            
+            //_millSoundPlayer.PlayLooping();
+        }
+
+        private void AudioLoopHandler(object sender, EventArgs e)
+        {
+            var audioPlayer = sender as System.Windows.Media.MediaPlayer;
+
+            audioPlayer.Position = TimeSpan.FromMilliseconds(1);
+        }
+
+        private void AudioResetHandler(object sender, EventArgs e)
+        {
+            var audioPlayer = sender as System.Windows.Media.MediaPlayer;
+            audioPlayer.Stop();
+            audioPlayer.Position = TimeSpan.FromMilliseconds(1);
         }
 
         private void renderTimer_Tick(object sender, EventArgs e)
@@ -54,6 +84,7 @@ namespace MillOpenGL_IllarionovPRI_120
             {
                 _mainScene3dMill.Draw(GlobalSceneActionMove);
                 UpdateProgressBar();
+                CalculateCollision();
             }
             else
                 _scene2dImage.Draw();
@@ -110,6 +141,8 @@ namespace MillOpenGL_IllarionovPRI_120
                 if (_mainScene3dMill.Mill.ActualRatotationSpeed > 0)
                 {
                     _mainScene3dMill.Mill.SheduledRotationSpeed = 0;
+                    //_millSoundPlayer.Stop();
+                    _millAudioPlayer.Stop();
                 }
 
                 return;
@@ -125,9 +158,39 @@ namespace MillOpenGL_IllarionovPRI_120
             }
         }
 
+        private void CalculateCollision()
+        {
+            var telega = _mainScene3dMill.Telega;
+            if (telega.TelegaShag == telega.MaxShag)
+            {
+                Debug.WriteLine("COLLISION");
+                _isCollision = true;
+                labelTelegaStatus.Text = WAIT_ROLLBACK;
+                labelTelegaStatus.ForeColor = Color.Red;
+
+                _mainScene3dMill.Mill.SheduledRotationSpeed = Mill.DEFAULT_MILL_ROTATION;
+                progressBar1.Value = progressBar1.Maximum;
+                //_millSoundPlayer.PlayLooping();
+                _millAudioPlayer.Play();
+                _refreshAudioPlayer.Play();
+            }
+
+            if (_isCollision)
+                telega.TelegaShag -= 1;
+
+            if (telega.TelegaShag == 0)
+            {
+                Debug.WriteLine("ROLLBACK IS DONE");
+                _isCollision = false;
+                labelTelegaStatus.Text = CAN_MOVE_TELEGA;
+                labelTelegaStatus.ForeColor = Color.Green;
+            }
+        }
+
         private void GlobalSceneActionMove()
         {
             Gl.glRotated(_globalRotation, 0, 1, 0);
+            //Gl.glTranslated(0, 0.5, 0);
             //Gl.glTranslated(5, 0, 0);
             //Gl.glTranslated(0, 0, -20);
         }
@@ -146,13 +209,21 @@ namespace MillOpenGL_IllarionovPRI_120
                 if (_globalRotation < -16)
                     _globalRotation = -16;
             }
-            else if(e.KeyCode == Keys.W && progressBar1.Value != progressBar1.Minimum)
+            else if (e.KeyCode == Keys.W && progressBar1.Value != progressBar1.Minimum)
             {
                 _mainScene3dMill.Mill.SheduledRotationSpeed += 1;
             }
             else if (e.KeyCode == Keys.S)
             {
                 _mainScene3dMill.Mill.SheduledRotationSpeed -= 1;
+            }
+            else if (e.KeyCode == Keys.A && !_isCollision)
+            {
+                _mainScene3dMill.Telega.TelegaShag -= 1;
+            }
+            else if (e.KeyCode == Keys.D && !_isCollision)
+            {
+                _mainScene3dMill.Telega.TelegaShag += 1;
             }
         }
 

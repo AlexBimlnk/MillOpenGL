@@ -33,9 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4" />
     <Reference Include="OpenTK.Compatibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL" />
     <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4" />
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,11 +57,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\7 семестр\Компьютерная графика\ЛР9\Illarionov_AM_PRI_120_LR9\Illarionov_AM_PRI_120_LR8\bin\Debug\Tao.FreeGlut.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase">
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Scenes\IOpenGLDrawable.cs" />
     <Compile Include="Scenes\Main\ConeOnCurve.cs" />
+    <Compile Include="Scenes\Main\ExportedObject.cs" />
     <Compile Include="Scenes\Main\MainScene3dMill.cs" />
+    <Compile Include="Scenes\Main\ModelLoader.cs" />
     <Compile Include="Scenes\Main\Point.cs" />
     <Compile Include="Scenes\Main\TextureLoader.cs" />
     <Compile Include="Scenes\Second\MyBrush.cs" />

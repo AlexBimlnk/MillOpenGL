@@ -43,6 +43,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.checkErmitDraw = new System.Windows.Forms.CheckBox();
             this.checkConeMode = new System.Windows.Forms.CheckBox();
+            this.labelTelegaStatus = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // openGLControl
@@ -102,7 +104,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(718, 217);
+            this.progressBar1.Location = new System.Drawing.Point(718, 159);
             this.progressBar1.Maximum = 1000;
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(230, 23);
@@ -113,7 +115,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(718, 189);
+            this.label1.Location = new System.Drawing.Point(718, 131);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(221, 24);
             this.label1.TabIndex = 5;
@@ -136,7 +138,7 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(718, 243);
+            this.label2.Location = new System.Drawing.Point(718, 185);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(177, 54);
             this.label2.TabIndex = 7;
@@ -145,7 +147,7 @@
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(718, 306);
+            this.label3.Location = new System.Drawing.Point(718, 248);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(177, 54);
             this.label3.TabIndex = 8;
@@ -173,11 +175,32 @@
             this.checkConeMode.UseVisualStyleBackColor = true;
             this.checkConeMode.CheckedChanged += new System.EventHandler(this.checkConeMode_CheckedChanged);
             // 
+            // labelTelegaStatus
+            // 
+            this.labelTelegaStatus.AutoSize = true;
+            this.labelTelegaStatus.ForeColor = System.Drawing.Color.Black;
+            this.labelTelegaStatus.Location = new System.Drawing.Point(722, 484);
+            this.labelTelegaStatus.Name = "labelTelegaStatus";
+            this.labelTelegaStatus.Size = new System.Drawing.Size(176, 13);
+            this.labelTelegaStatus.TabIndex = 11;
+            this.labelTelegaStatus.Text = "Вы можете передвигать тележку";
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(718, 314);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(177, 54);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Используйте A/D для телеги";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(960, 521);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.labelTelegaStatus);
             this.Controls.Add(this.checkConeMode);
             this.Controls.Add(this.checkErmitDraw);
             this.Controls.Add(this.label3);
@@ -212,6 +235,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkErmitDraw;
         private System.Windows.Forms.CheckBox checkConeMode;
+        private System.Windows.Forms.Label labelTelegaStatus;
+        private System.Windows.Forms.Label label4;
     }
 }
 
