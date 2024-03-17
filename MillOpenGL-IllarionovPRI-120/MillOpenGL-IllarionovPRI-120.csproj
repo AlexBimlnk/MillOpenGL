@@ -62,6 +62,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ParticalSystem\Explosion.cs" />
+    <Compile Include="ParticalSystem\Partilce.cs" />
     <Compile Include="Scenes\IOpenGLDrawable.cs" />
     <Compile Include="Scenes\Main\ConeOnCurve.cs" />
     <Compile Include="Scenes\Main\ExportedObject.cs" />

@@ -1,4 +1,5 @@
-﻿using MillOpenGL_IllarionovPRI_120.Scenes;
+﻿using MillOpenGL_IllarionovPRI_120.ParticalSystem;
+using MillOpenGL_IllarionovPRI_120.Scenes;
 using MillOpenGL_IllarionovPRI_120.Scenes.Main;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,18 @@ namespace MillOpenGL_IllarionovPRI_120
     {
         private readonly TextureLoader _textureLoader = new TextureLoader();
         private readonly ModelLoader _modelLoader = new ModelLoader();
+        
 
         private readonly int _width;
         private readonly int _height;
 
         private bool _isInit;
 
+        public float GlobalTime {  get; set; }
+
         public Mill Mill { get; } = new Mill();
+
+        public Explosion Explosion { get; } = new Explosion(0, 0, 0, 300, 500);
 
         public ModelLoader Telega => _modelLoader;
 
@@ -82,6 +88,8 @@ namespace MillOpenGL_IllarionovPRI_120
             // очищение текущей матрицы
             Gl.glLoadIdentity();
 
+            DrawExplosion();
+
             DrawBackground();
 
             globalSceneMove?.Invoke();
@@ -89,6 +97,20 @@ namespace MillOpenGL_IllarionovPRI_120
             Mill.Draw(globalSceneMove);
 
             _modelLoader.Draw(globalSceneMove);
+        }
+
+        private void DrawExplosion()
+        {
+            Gl.glPushMatrix();
+            Gl.glTranslated(0, 0, -15);
+
+            Explosion.Calculate(GlobalTime);
+
+            // возвращаем состояние матрицы
+            Gl.glPopMatrix();
+
+            // завершаем рисование
+            Gl.glFlush();
         }
 
         private void DrawBackground()

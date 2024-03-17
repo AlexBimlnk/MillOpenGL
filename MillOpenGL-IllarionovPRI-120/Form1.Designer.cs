@@ -45,6 +45,9 @@
             this.checkConeMode = new System.Windows.Forms.CheckBox();
             this.labelTelegaStatus = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.trackBarLight = new System.Windows.Forms.TrackBar();
+            this.label5 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarLight)).BeginInit();
             this.SuspendLayout();
             // 
             // openGLControl
@@ -101,10 +104,11 @@
             this.btnAddParticals.TabIndex = 3;
             this.btnAddParticals.Text = "Включить дождь";
             this.btnAddParticals.UseVisualStyleBackColor = true;
+            this.btnAddParticals.Click += new System.EventHandler(this.btnAddParticals_Click);
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(718, 159);
+            this.progressBar1.Location = new System.Drawing.Point(718, 171);
             this.progressBar1.Maximum = 1000;
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(230, 23);
@@ -115,7 +119,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(718, 131);
+            this.label1.Location = new System.Drawing.Point(718, 143);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(221, 24);
             this.label1.TabIndex = 5;
@@ -127,7 +131,7 @@
             // 
             // btnResetGlobalRotation
             // 
-            this.btnResetGlobalRotation.Location = new System.Drawing.Point(722, 384);
+            this.btnResetGlobalRotation.Location = new System.Drawing.Point(722, 396);
             this.btnResetGlobalRotation.Name = "btnResetGlobalRotation";
             this.btnResetGlobalRotation.Size = new System.Drawing.Size(122, 36);
             this.btnResetGlobalRotation.TabIndex = 6;
@@ -138,7 +142,7 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(718, 185);
+            this.label2.Location = new System.Drawing.Point(718, 197);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(177, 54);
             this.label2.TabIndex = 7;
@@ -147,7 +151,7 @@
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(718, 248);
+            this.label3.Location = new System.Drawing.Point(718, 260);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(177, 54);
             this.label3.TabIndex = 8;
@@ -156,7 +160,7 @@
             // checkErmitDraw
             // 
             this.checkErmitDraw.AutoSize = true;
-            this.checkErmitDraw.Location = new System.Drawing.Point(722, 437);
+            this.checkErmitDraw.Location = new System.Drawing.Point(722, 449);
             this.checkErmitDraw.Name = "checkErmitDraw";
             this.checkErmitDraw.Size = new System.Drawing.Size(126, 17);
             this.checkErmitDraw.TabIndex = 9;
@@ -167,7 +171,7 @@
             // checkConeMode
             // 
             this.checkConeMode.AutoSize = true;
-            this.checkConeMode.Location = new System.Drawing.Point(722, 460);
+            this.checkConeMode.Location = new System.Drawing.Point(722, 472);
             this.checkConeMode.Name = "checkConeMode";
             this.checkConeMode.Size = new System.Drawing.Size(99, 17);
             this.checkConeMode.TabIndex = 10;
@@ -179,7 +183,7 @@
             // 
             this.labelTelegaStatus.AutoSize = true;
             this.labelTelegaStatus.ForeColor = System.Drawing.Color.Black;
-            this.labelTelegaStatus.Location = new System.Drawing.Point(722, 484);
+            this.labelTelegaStatus.Location = new System.Drawing.Point(722, 496);
             this.labelTelegaStatus.Name = "labelTelegaStatus";
             this.labelTelegaStatus.Size = new System.Drawing.Size(176, 13);
             this.labelTelegaStatus.TabIndex = 11;
@@ -188,17 +192,38 @@
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(718, 314);
+            this.label4.Location = new System.Drawing.Point(718, 326);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(177, 54);
             this.label4.TabIndex = 12;
             this.label4.Text = "Используйте A/D для телеги";
+            // 
+            // trackBarLight
+            // 
+            this.trackBarLight.Location = new System.Drawing.Point(853, 43);
+            this.trackBarLight.Maximum = 20;
+            this.trackBarLight.Name = "trackBarLight";
+            this.trackBarLight.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBarLight.Size = new System.Drawing.Size(45, 98);
+            this.trackBarLight.TabIndex = 13;
+            this.trackBarLight.Value = 13;
+            this.trackBarLight.Scroll += new System.EventHandler(this.trackBarLight_Scroll);
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(846, 12);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(102, 28);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Интенсивность света:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(960, 521);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.trackBarLight);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.labelTelegaStatus);
             this.Controls.Add(this.checkConeMode);
@@ -215,6 +240,7 @@
             this.Name = "Form1";
             this.Text = "КП \"Мельница\" Илларионов АМ ПРИ-120";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarLight)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,6 +263,8 @@
         private System.Windows.Forms.CheckBox checkConeMode;
         private System.Windows.Forms.Label labelTelegaStatus;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TrackBar trackBarLight;
+        private System.Windows.Forms.Label label5;
     }
 }
 

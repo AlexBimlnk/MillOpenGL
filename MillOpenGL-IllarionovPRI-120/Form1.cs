@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MillOpenGL_IllarionovPRI_120.ParticalSystem;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -16,20 +17,21 @@ namespace MillOpenGL_IllarionovPRI_120
         private const string WAIT_ROLLBACK = "Ждите возрат телеги";
         private const string CAN_MOVE_TELEGA = "Вы можете передвигать тележку";
 
+        private float[] _abmbientIntesive = { 0, 0, 0, 1 };
+
+
         private MainScene3dMill _mainScene3dMill;
         private Scene2dImage _scene2dImage;
 
         private System.Windows.Media.MediaPlayer _millAudioPlayer = new System.Windows.Media.MediaPlayer();
         private System.Windows.Media.MediaPlayer _refreshAudioPlayer = new System.Windows.Media.MediaPlayer();
 
-        private readonly SoundPlayer _millSoundPlayer = new SoundPlayer("sounds\\millloop.wav");
-        private readonly SoundPlayer _refreshSoundPlayer = new SoundPlayer("sounds\\millrefresh.wav");
-        private readonly SoundPlayer _bgAudio = new SoundPlayer("sounds\\Terrain-Grass.wav");
-
         private bool _isMainScene = true;
         private bool _isCollision;
 
         private int _globalRotation = 0;
+
+        private float _globalTime = 0f;
 
         public Form1()
         {
@@ -82,7 +84,9 @@ namespace MillOpenGL_IllarionovPRI_120
         {
             if (_isMainScene)
             {
+                _mainScene3dMill.GlobalTime += renderTimer.Interval / 1000f;
                 _mainScene3dMill.Draw(GlobalSceneActionMove);
+
                 UpdateProgressBar();
                 CalculateCollision();
             }
@@ -245,6 +249,28 @@ namespace MillOpenGL_IllarionovPRI_120
             _mainScene3dMill.Mill.IsNeedDefaultConeDraw = ((CheckBox)sender).Checked;
 
             openGLControl.Focus();
+        }
+
+        private void btnAddParticals_Click(object sender, EventArgs e)
+        {
+            Random rnd = new Random();
+
+            _mainScene3dMill.Explosion.SetNewPosition(0, 0, 7);
+            // случайную силу
+            _mainScene3dMill.Explosion.SetNewPower(rnd.Next(20, 80));
+            // и активируем сам взрыв
+            _mainScene3dMill.Explosion.Boooom(_mainScene3dMill.GlobalTime);
+        }
+
+        private void trackBarLight_Scroll(object sender, EventArgs e)
+        {
+            var inentsiv = -1 + trackBarLight.Value / 10f;
+
+            _abmbientIntesive[0] = inentsiv;
+            _abmbientIntesive[1] = inentsiv;
+            _abmbientIntesive[2] = inentsiv;
+
+            Gl.glLightModelfv(Gl.GL_LIGHT_MODEL_AMBIENT, _abmbientIntesive);
         }
     }
 }
