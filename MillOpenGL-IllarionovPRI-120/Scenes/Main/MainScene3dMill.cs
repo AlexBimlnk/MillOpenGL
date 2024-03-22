@@ -18,6 +18,11 @@ namespace MillOpenGL_IllarionovPRI_120
         private readonly TextureLoader _textureLoader = new TextureLoader();
         private readonly ModelLoader _modelLoader = new ModelLoader();
         
+        private readonly Dictionary<int, TextureLoader> _clouds = Enumerable.Range(1, 6)
+            .Select(x => (x, new TextureLoader()))
+            .ToDictionary(k => k.x, v => v.Item2);
+
+        private IEnumerator<uint> _cloudsEnumerator;
 
         private readonly int _width;
         private readonly int _height;
@@ -69,6 +74,13 @@ namespace MillOpenGL_IllarionovPRI_120
 
             _textureLoader.LoadTextureForModel("background.jpg");
 
+            foreach(var cloud in _clouds)
+            {
+                cloud.Value.LoadTextureForModel($"cloud{cloud.Key}.png");
+            }
+
+            _cloudsEnumerator = CloudIterator().GetEnumerator();
+
             _modelLoader.LoadModel("telega.ase");
 
             _isInit = true;
@@ -91,6 +103,8 @@ namespace MillOpenGL_IllarionovPRI_120
             DrawExplosion();
 
             DrawBackground();
+
+            DrawClouds();
 
             globalSceneMove?.Invoke();
 
@@ -152,6 +166,61 @@ namespace MillOpenGL_IllarionovPRI_120
             Gl.glFlush();
 
             Gl.glDisable(Gl.GL_TEXTURE_2D);
+        }
+
+        private void DrawClouds()
+        {
+            Gl.glPushMatrix();
+            // включаем режим текстурирования
+            Gl.glEnable(Gl.GL_TEXTURE_2D);
+            // включаем режим текстурирования, указывая идентификатор mGlTextureObject
+            Gl.glBindTexture(Gl.GL_TEXTURE_2D, _cloudsEnumerator.Current);
+
+            _cloudsEnumerator.MoveNext();
+
+            // сохраняем состояние матрицы
+            Gl.glPushMatrix();
+
+            Gl.glTranslated(15, 15, -50);
+            Gl.glRotated(-90, 0, 0, 1);
+            Gl.glScaled(0.1, 0.1, 0.1);
+
+            Gl.glClear(Gl.GL_4D_COLOR_TEXTURE);
+
+            // отрисовываем полигон
+            Gl.glBegin(Gl.GL_QUADS);
+
+            // указываем поочередно вершины и текстурные координаты
+            Gl.glVertex3d(25, 25, 0);
+            Gl.glTexCoord2f(0, 0);
+            Gl.glVertex3d(25, -25, 0);
+            Gl.glTexCoord2f(0, 1);
+            Gl.glVertex3d(-25, -25, 0);
+            Gl.glTexCoord2f(1, 1);
+            Gl.glVertex3d(-25, 25, 0);
+            Gl.glTexCoord2f(1, 0);
+
+            // завершаем отрисовку
+            Gl.glEnd();
+
+            // возвращаем состояние матрицы
+            Gl.glPopMatrix();
+
+            // завершаем рисование
+            Gl.glFlush();
+
+            Gl.glDisable(Gl.GL_TEXTURE_2D);
+        }
+
+        private IEnumerable<uint> CloudIterator()
+        {
+            while (true)
+            {
+                foreach (var cloud in _clouds)
+                {
+                    yield return cloud.Value.GetTextureObj();
+                }
+            }
         }
     }
 }
